@@ -7,7 +7,6 @@
 	has_word(std::string word);
 	add_word(std::string);
 	remove_word(std::string);
-
 */
 #include <iostream>
 #include <vector>
@@ -20,6 +19,7 @@ struct TrieNode
 	bool is_word{false};
 	std::unordered_map<char, std::shared_ptr<TrieNode>> children;
 	char cur_char{};
+	int prefix_count{1};
 
 	TrieNode()
 	{
@@ -88,30 +88,77 @@ public:
 			if (curNode->children.count(ch))
 			{
 				curNode = curNode->children[ch];
+				curNode->prefix_count += 1;
 			}
 			else
 			{
-				curNode->children[ch] = std::make_shared<TrieNode>(ch);
-				curNode->cur_char = ch;
-				curNode = curNode->children[ch];
+				auto newNode = std::make_shared<TrieNode>(ch);
+				curNode->children[ch] = newNode;
+				curNode = newNode;
 			}
 		}
 		curNode->is_word = true;
+	}
+
+	void remove_word(const std::string &word)
+	{
+		std::shared_ptr<TrieNode> curNode = root;
+		std::vector<std::shared_ptr<TrieNode>> nodePath{};
+		// Loop until you reach the last node of the Trie
+		for (char ch : word)
+		{
+			if (curNode->children.count(ch))
+			{
+				std::shared_ptr<TrieNode> childNode = curNode->children[ch];
+				curNode = childNode;
+				nodePath.push_back(curNode);
+			}
+			else
+			{
+				std::cout << "The word does not exist \n";
+				return;
+			}
+		}
+		// If the last node is not a word, nothing can't be removed.
+		if (!curNode->is_word)
+		{
+			std::cout << "The word does not exist \n";
+			return;
+		}
+		/*
+			Loop through all the nodes and reduce their prefix count by 1
+			If the prefix count becomes 0 that means that the node is not
+			used by any other word and can then be removed.
+		*/
+		else
+		{
+			std::shared_ptr<TrieNode> prevNode{root};
+			for (auto node : nodePath)
+			{
+				node->prefix_count -= 1;
+				std::cout << '(' << node->cur_char << " " << node->prefix_count << " " << node->is_word << "), ";
+				if (node->prefix_count == 0)
+				{
+
+					prevNode->children.erase(node->cur_char);
+
+					node.reset();
+					return;
+				}
+				prevNode = node;
+			}
+		}
 	}
 };
 
 int main()
 {
 	int x = 2;
-	int &xRef = x;
 
-	Trie myTrie{Trie({"Apple", "Banana", "Advantageous"})};
-	std::cout << myTrie.contains_word("Banana") << '\n'
-						<< myTrie.contains_word("Ad") << '\n'
-						<< myTrie.has_prefix("Ad") << '\n';
+	Trie myTrie{Trie({"Apple"})};
 
-	xRef = 5;
+	myTrie.remove_word("Apple");
+	std::cout << myTrie.has_prefix("App");
 
-	std::cout << xRef << x;
 	return 0;
 }
