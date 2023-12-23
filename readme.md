@@ -6,22 +6,17 @@
 
 - Trie
 
-## 🔧 Building the code
-
-### 📂 Create `build/` folder
+## Creating build files
 
 ```bash
-mkdir build && cd build
+cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
 ```
 
-### 🪖 Create build files
-
-```bash
-cmake ..
-```
+- Creates a `build` dir from the using the current dir as the `src`
+- `$VCPKG_ROOT` is the path to your `/vcpkg` dir.
 
 ### ⚡️ Create & run executable
 
 ```bash
-make && ./C++Playground
+cd build/ && make && ./C++Playground
 ```

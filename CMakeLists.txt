@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.10)
 # Set the project name and version
 project(C++Playground VERSION 1.0)
 
+find_package(ftxui CONFIG REQUIRED)
+
 # Specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -21,7 +23,7 @@ include_directories(include)
 add_executable(C++Playground ${SOURCES})
 
 # Link against libraries (if any)
-# target_link_libraries(MyProject PUBLIC SomeLibrary)
+target_link_libraries(C++Playground PRIVATE ftxui::screen ftxui::dom ftxui::component)
 
 # If using any third-party libraries stored in 'libs', add them
 # add_subdirectory(libs/SomeLibrary)
