@@ -1,11 +1,27 @@
-## 🟨 c++ learnings
+# 🟨 c++ learnings
+
+## Overview
 
 ### Implemented data structures
 
 - Trie
 
-## 💨 Running the code
+## 🔧 Building the code
 
-```c++
-g++ -std=c++14 -o main main.cpp && ./main
+### 📂 Create `build/` folder
+
+```bash
+mkdir build && cd build
+```
+
+### 🪖 Create build files
+
+```bash
+cmake ..
+```
+
+### ⚡️ Create & run executable
+
+```bash
+make && ./C++Playground
 ```
