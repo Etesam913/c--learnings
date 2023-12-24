@@ -14,6 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(SOURCES
     src/main.cpp
     src/trie.cpp
+    src/io.cpp
 )
 
 # Add include directories
