@@ -14,7 +14,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(SOURCES
     src/main.cpp
     src/trie.cpp
-    src/io.cpp
 )
 
 # Add include directories
@@ -24,7 +23,7 @@ include_directories(include)
 add_executable(C++Playground ${SOURCES})
 
 # Link against libraries (if any)
-target_link_libraries(C++Playground PRIVATE ftxui::screen ftxui::dom ftxui::component)
+#target_link_libraries(C++Playground PRIVATE ftxui::screen ftxui::dom ftxui::component)
 
 # If using any third-party libraries stored in 'libs', add them
 # add_subdirectory(libs/SomeLibrary)

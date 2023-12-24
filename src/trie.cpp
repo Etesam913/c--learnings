@@ -2,7 +2,6 @@
 #include <iostream>
 #include <unordered_map>
 #include <vector>
-#include "trie.h"
 
 TrieNode::TrieNode(){
 
