@@ -1,4 +1,4 @@
-#include "trie.h"
+#include "trie.hpp"
 #include <iostream>
 #include <unordered_map>
 #include <vector>
