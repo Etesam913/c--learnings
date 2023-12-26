@@ -17,12 +17,17 @@ set(SOURCES
     src/trie.cpp
 )
 
+set(TEST_SOURCES
+    test/my_test.cpp
+    src/trie.cpp
+)
+
 # Add include directories
 include_directories(include)
 
 # Add an executable based on the source files
 add_executable(C++Playground ${SOURCES})
-add_executable(unit_tests test/my_test.cpp)
+add_executable(unit_tests ${TEST_SOURCES})
 
 # Link against libraries (if any)
 target_link_libraries(unit_tests GTest::gtest GTest::gtest_main)

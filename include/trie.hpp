@@ -1,6 +1,10 @@
 #pragma once
+
 #include <unordered_map>
 #include <vector>
+#include <string>
+#include <set>
+#include <iostream>
 
 /*
   Basic Trie Implementation
@@ -17,24 +21,32 @@
 
 struct TrieNode
 {
-  bool is_word{false};
-  std::unordered_map<char, std::shared_ptr<TrieNode>> children;
-  char cur_char{};
-  int prefix_count{1};
+    bool is_word{false};
+    std::unordered_map<char, std::shared_ptr<TrieNode>> children;
+    char cur_char{};
+    int prefix_count{1};
 
-  TrieNode();
-  TrieNode(char letter, bool is_word_val);
+    TrieNode();
+
+    TrieNode(char letter, bool is_word_val);
 };
 
 class Trie
 {
 private:
-  std::shared_ptr<TrieNode> root;
+    std::shared_ptr<TrieNode> root;
+    std::unique_ptr<std::set<std::string>> words;
 
 public:
-  Trie(const std::vector<std::string> &words);
-  bool contains_word(const std::string &word);
-  bool has_prefix(const std::string &word);
-  void add_word(const std::string &word);
-  void remove_word(const std::string &word);
+    explicit Trie(const std::vector<std::string> passed_in_words);
+
+    bool contains_word(const std::string &word);
+
+    bool has_prefix(const std::string &word);
+
+    void add_word(const std::string &word);
+
+    void remove_word(const std::string &word);
+
+    std::set<std::string> get_words();
 };
