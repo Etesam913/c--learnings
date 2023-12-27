@@ -46,6 +46,8 @@ public:
 
     void add_word(const std::string &word);
 
+    void add_words_from_txt_file(const std::string &file_path);
+
     void remove_word(const std::string &word);
 
     std::set<std::string> get_words();

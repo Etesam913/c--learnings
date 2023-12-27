@@ -1,6 +1,8 @@
 #include "trie.hpp"
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <boost/algorithm/string.hpp>
 
 TrieNode::TrieNode() = default;
 
@@ -76,6 +78,28 @@ void Trie::add_word(const std::string &word)
     curNode->is_word = true;
 }
 
+void Trie::add_words_from_txt_file(const std::string &file_path)
+{
+    std::ifstream file_stream(file_path);
+    if (!file_stream.is_open())
+    {
+        throw std::invalid_argument(file_path + " cannot be opened.");
+    }
+
+    std::string line;
+    while (getline(file_stream, line))
+    {
+        std::string separator = ",";
+        std::vector<std::string> words = {};
+        boost::split(words, line, boost::is_any_of(","));
+        for (auto word : words)
+        {
+            boost::trim(word);
+            add_word(word);
+        }
+    }
+}
+
 void Trie::remove_word(const std::string &word)
 {
     words->erase(word);
@@ -92,7 +116,6 @@ void Trie::remove_word(const std::string &word)
         }
         else
         {
-            // std::cout << "The word does not exist \n";
             throw std::invalid_argument("This word does not exist");
             return;
         }
