@@ -62,7 +62,7 @@ TEST(trie, add_words_from_txt_file)
     EXPECT_TRUE(trie_words.find("etesam") != trie_words.end());
     EXPECT_TRUE(trie_words.find("was") != trie_words.end());
     EXPECT_TRUE(trie_words.find("here") != trie_words.end());
-};
+}
 
 int main(int argc, char **argv)
 {
