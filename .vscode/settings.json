@@ -61,6 +61,7 @@
     "any": "cpp",
     "iomanip": "cpp",
     "map": "cpp",
-    "set": "cpp"
+    "set": "cpp",
+    "fstream": "cpp"
   }
 }

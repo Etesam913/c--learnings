@@ -1,5 +1,6 @@
 #include "trie.hpp"
 #include <iostream>
+#include <algorithm>
 
 struct TreeNode
 {
@@ -15,70 +16,95 @@ struct TreeNode
 
 class BinarySearchTree
 {
-private:
-    std::unique_ptr<TreeNode> root{};
 
 public:
-    BinarySearchTree(const int val, const std::vector<int> &nodes)
+    std::unique_ptr<TreeNode> root{};
+
+    BinarySearchTree(std::vector<int> nodes)
     {
-        // root.val = val;
+        // Sort the tree so that is will be balanced
+        std::sort(nodes.begin(), nodes.end());
+
         for (auto num : nodes)
         {
             if (!root)
             {
-                root = std::make_unique<TreeNode>(TreeNode(val));
+                root = std::make_unique<TreeNode>(TreeNode(num));
             }
             else
             {
-                add_node(root.get(), num);
+                add_node(num);
             }
         }
     }
 
-    bool add_node(TreeNode *cur_node, int val)
+    /**
+     * Does an inorder traversal of the BST to get the sorted order of the nodes based off of their `val` property.
+     */
+    std::vector<TreeNode *> get_inorder_traversal()
     {
-        if (!cur_node)
-        {
-            return false;
-        }
+        std::vector<TreeNode *> nodes = {};
 
-        if (val < cur_node->val)
+        std::function<void(TreeNode *)> traverse_inorder = [&nodes, &traverse_inorder](TreeNode *cur_node) -> void
         {
-            auto left_tree = add_node(cur_node->left.get(), val);
-            if (!left_tree)
+            if (cur_node)
             {
-                cur_node->left = std::make_unique<TreeNode>(TreeNode(val));
-                std::cout << cur_node->left->val << "\n";
-                return true;
+                traverse_inorder(cur_node->left.get());
+                nodes.emplace_back(cur_node);
+                traverse_inorder(cur_node->right.get());
             }
-        }
-        else
+        };
+        traverse_inorder(root.get());
+        return nodes;
+    }
+
+    bool add_node(int val)
+    {
+
+        std::function<bool(TreeNode *)> traverse_tree = [&traverse_tree, val](TreeNode *cur_node) -> bool
         {
-            auto right_tree = add_node(cur_node->right.get(), val);
-            if (!right_tree)
+            if (!cur_node)
             {
-                cur_node->right = std::make_unique<TreeNode>(TreeNode(val));
-                std::cout << cur_node->right->val << "\n";
-                return true;
+                return false;
             }
+
+            if (val < cur_node->val)
+            {
+                bool left_tree = traverse_tree(cur_node->left.get());
+                if (!left_tree)
+                {
+                    cur_node->left = std::make_unique<TreeNode>(TreeNode(val));
+                    return true;
+                }
+            }
+            else
+            {
+                bool right_tree = traverse_tree(cur_node->right.get());
+                if (!right_tree)
+                {
+                    cur_node->right = std::make_unique<TreeNode>(TreeNode(val));
+                    return true;
+                }
+            }
+            return true;
+        };
+        const int has_added = traverse_tree(root.get());
+        if (!has_added)
+        {
+            throw std::invalid_argument("The root node is null");
         }
-        return false;
+        return has_added;
     }
 };
 
 int main()
 {
-    // Trie my_trie = Trie({"yo", "mama"});
+    BinarySearchTree tree = BinarySearchTree({2, 10, 3, 5});
 
-    // my_trie.add_words_from_txt_file("../words.txt");
-
-    // auto words = my_trie.get_words();
-    // for (auto word : words)
-    // {
-    //     std::cout << word << '\n';
-    // }
-
-    BinarySearchTree tree = BinarySearchTree(5, {2, 10, 3, 5});
-
+    const auto inorder_nodes = tree.get_inorder_traversal();
+    for (auto node : inorder_nodes)
+    {
+        std::cout << node->val << "\n";
+    }
     return 0;
 }
