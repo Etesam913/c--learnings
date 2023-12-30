@@ -1,23 +1,23 @@
+#pragma once
+
 #include <memory>
 
-struct TreeNode
-{
-  int val{0};
-  std::unique_ptr<TreeNode> left{};
-  std::unique_ptr<TreeNode> right{};
+struct TreeNode {
+    int val{0};
+    std::unique_ptr<TreeNode> left{};
+    std::unique_ptr<TreeNode> right{};
 
-  TreeNode(const int startVal);
+    TreeNode(const int startVal);
 };
 
-class BinarySearchTree
-{
+class BinarySearchTree {
 private:
-  std::unique_ptr<TreeNode> root{};
+    std::unique_ptr<TreeNode> root{};
 
 public:
-  BinarySearchTree(const std::vector<int> nodes);
+    BinarySearchTree(const std::vector<int> &nodes);
 
-  bool add_node(int val);
+    bool add_node(int val);
 
-  std::vector<TreeNode *> get_inorder_traversal();
+    std::vector<TreeNode *> get_inorder_traversal();
 };

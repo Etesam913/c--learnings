@@ -9,9 +9,9 @@ find_package(Boost REQUIRED)
 
 
 # Include Boost headers
-if(Boost_FOUND)
+if (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
-endif()
+endif ()
 
 
 # Specify the C++ standard
@@ -20,14 +20,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Optionally, set a variable for sources for clarity
 set(SOURCES
-    src/main.cpp
-    src/trie.cpp
-    src/binary-search-tree.cpp
+        src/main.cpp
+        src/trie.cpp
+        src/binary-search-tree.cpp
 )
 
 set(TEST_SOURCES
-    test/trie-tests.cpp
-    src/trie.cpp
+        test/trie-tests.cpp
+        src/trie.cpp
+        test/binary-search-tree-tests.cpp
+        src/binary-search-tree.cpp
 )
 
 # Add include directories
